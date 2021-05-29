@@ -1,0 +1,74 @@
+<div class="search-wrapper">
+  <div class="user-details">
+    <label>Name:</label>
+    <input
+      type="text"
+      [(ngModel)]="name"
+      pattern="[a-zA-Z ]*"
+      placeholder="Search by name"
+    />
+    <div *ngIf="name ? name.invalid : ''" class="error">Invalid</div>
+  </div>
+  <div class="user-details">
+    <label>Birth Date:</label>
+    <input type="date" [(ngModel)]="dob" placeholder="Search by birth date" />
+  </div>
+  <div class="button-container">
+    <button class="search-button" (click)="searchByInput(name, dob)">Search</button>
+  </div>
+</div>
+<table>
+  <caption>
+    Patient List
+  </caption>
+  <thead>
+    <tr>
+      <th scope="col">Id</th>
+      <th scope="col">Family Name</th>
+      <th scope="col">Given Name</th>
+      <th scope="col">Address</th>
+      <th scope="col">Gender</th>
+      <th scope="col">Birth Date</th>
+      <!-- <th scope="col">Resource Type</th> -->
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of patients">
+      <td data-label="Id">{{ item?.resource?.id }}</td>
+      <td data-label="Family Name">
+        {{ item?.resource?.name && item?.resource?.name[0]?.family }}
+      </td>
+      <td data-label="Given Name">
+        {{
+          item?.resource?.name &&
+            item?.resource?.name[0].given &&
+            item?.resource?.name[0]?.given[0]
+        }}
+      </td>
+      <td data-label="Address">
+        {{ item?.resource?.address && item?.resource?.address[0].city }}
+        <br />
+        {{ item?.resource?.address && item?.resource?.address[0].district }}
+        <br />
+        {{ item?.resource?.address && item?.resource?.address[0].state }}
+        <br />
+        {{ item?.resource?.address && item?.resource?.address[0].postalCode }}
+        <br />
+        {{ item?.resource?.address && item?.resource?.address[0].country }}
+      </td>
+      <td data-label="Gender">
+        {{ item?.resource?.gender }}
+      </td>
+      <td data-label="Birth Date">
+        {{ item?.resource?.birthDate }}
+      </td>
+      <!-- <td data-label="Resource Type">
+        {{ item?.resource?.resourceType }}
+      </td> -->
+    </tr>
+  </tbody>
+</table>
+<div class="footer">
+  Data requested time :
+  {{ timeOfRequest | date: "HH:mm:ss" }} ms
+</div>
